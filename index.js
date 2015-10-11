@@ -2,6 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const _ = require('lodash');
 const port = 4000;
 const app = express();
 app.use(bodyParser.json());
@@ -11,13 +12,10 @@ const users = [];
 
 
 app.get('/api/companies', (req, res) => {
-    console.log('GET - companies');
     res.status(200).send(companies);
 });
 
 app.post('/api/companies', (req, res) => {
-    console.log('POST - companies');
-
     const data = req.body;
 
     if(!data.hasOwnProperty('name')) {
@@ -29,14 +27,17 @@ app.post('/api/companies', (req, res) => {
         return;
     }
 
+    data.id = companies.length;
+
     companies.push(data);
     res.status(201).send(data);
 });
 
 app.get('/api/companies/:id', (req, res) => {
-    console.log('GET - company');
-
-    const data = companies[id];
+    const id = req.params.id;
+    const data = _.find(companies, (company) => {
+        return company.id == id;
+    });
 
     if(!data) {
         res.status(404).send('not found');
