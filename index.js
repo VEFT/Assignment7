@@ -43,7 +43,20 @@ app.get('/api/users', (req, res) => {
 });
 
 app.post('/api/users', (req, res) => {
-    console.log('flot');
+    console.log('POST - users');
+
+    const data = req.body;
+    if(!data.hasOwnProperty('name')) {
+        res.status(412).send('missing name');
+        return;
+    }
+    if(!date.hasOwnProperty('email')) {
+        res.status(412).send('missing email');
+        return;
+    }
+
+    users.push(data);
+    res.status(201).send(data);
 });
 
 app.get('/api/users/:id/punches', (req, res) => {
