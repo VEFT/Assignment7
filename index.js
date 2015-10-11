@@ -26,7 +26,7 @@ app.get('/api/users', (req, res) => {
 });
 
 app.post('/api/users', (req, res) => {
-    console.log('flot');
+    console.log('POST - users');
 });
 
 app.get('/api/users/:id/punches', (req, res) => {
