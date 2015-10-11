@@ -10,6 +10,9 @@ app.use(bodyParser.json());
 const companies = [];
 const users = [];
 
+app.listen(port, () => {
+    console.log('Server is on port:', port);
+});
 
 app.get('/api/companies', (req, res) => {
     res.status(200).send(companies);
@@ -52,9 +55,8 @@ app.get('/api/users', (req, res) => {
 });
 
 app.post('/api/users', (req, res) => {
-    console.log('POST - users');
-
     const data = req.body;
+
     if(!data.hasOwnProperty('name')) {
         res.status(412).send('missing name');
         return;
@@ -63,6 +65,8 @@ app.post('/api/users', (req, res) => {
         res.status(412).send('missing email');
         return;
     }
+
+    data.id = users.length;
 
     users.push(data);
     res.status(201).send(data);
@@ -73,10 +77,8 @@ app.get('/api/users/:id/punches', (req, res) => {
 });
 
 app.post('/api/users/:id/punches', (req, res) => {
-    console.log('flot');
-    console.log('POST - punches');
-
     const data = req.body;
+
     if(!data.hasOwnProperty('id')) {
         res.status(412).send('missing company id');
         return;
@@ -86,6 +88,3 @@ app.post('/api/users/:id/punches', (req, res) => {
     res.status(201).send(data);
 });
 
-app.listen(port, () => {
-    console.log('Server is on port:', port);
-});
