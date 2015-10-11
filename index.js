@@ -17,7 +17,7 @@ app.get('/api/companies', (req, res) => {
 });
 
 app.post('/api/companies', (req, res) => {
-    console.log('POSRT - companies');
+    console.log('POST - companies');
 
     const data = req.body;
 
@@ -35,7 +35,16 @@ app.post('/api/companies', (req, res) => {
 });
 
 app.get('/api/companies/:id', (req, res) => {
-    res.status(200).send('Hello World!');
+    console.log('GET - company');
+
+    const data = companies[id];
+
+    if(!data) {
+        res.status(404).send('not found');
+        return;
+    }
+
+    res.status(200).send(data);
 });
 
 app.get('/api/users', (req, res) => {
