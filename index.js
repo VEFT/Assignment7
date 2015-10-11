@@ -25,7 +25,7 @@ app.post('/api/companies', (req, res) => {
         res.status(412).send('missing name');
         return;
     }
-    if(!date.hasOwnProperty('punchCount')) {
+    if(!data.hasOwnProperty('punchCount')) {
         res.status(412).send('missing punchCount');
         return;
     }
