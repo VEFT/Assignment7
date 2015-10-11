@@ -1,2 +1,2 @@
 #/bin/bash
-curl -XGET http://localhost:4000/api/companies/:id
+curl -XGET http://localhost:4000/api/companies/0
