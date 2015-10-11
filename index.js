@@ -12,7 +12,6 @@ const users = [];
 
 app.get('/api/companies', (req, res) => {
     console.log('GET - companies');
-
     res.status(200).send(companies);
 });
 
@@ -39,7 +38,7 @@ app.get('/api/companies/:id', (req, res) => {
 });
 
 app.get('/api/users', (req, res) => {
-    res.status(200).send('Hello World!');
+    res.status(200).send(users);
 });
 
 app.post('/api/users', (req, res) => {
