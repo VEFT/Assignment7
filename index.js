@@ -6,6 +6,8 @@ const port = 4000;
 const app = express();
 app.use(bodyParser.json());
 
+const companies = [];
+
 
 app.get('/api/companies', (req, res) => {
     res.status(200).send('Hello World!');
