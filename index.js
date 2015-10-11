@@ -7,14 +7,31 @@ const app = express();
 app.use(bodyParser.json());
 
 const companies = [];
+const users = [];
 
 
 app.get('/api/companies', (req, res) => {
-    res.status(200).send('Hello World!');
+    console.log('GET - companies');
+    res.status(200).send(companies);
 });
 
 app.post('/api/companies', (req, res) => {
-    console.log('flot');
+    console.log('POSRT - companies');
+
+    const data = req.body;
+
+    if(!data.hasOwnProperty('name')) {
+        res.status(412).send('missing name');
+        return;
+    }
+    if(!date.hasOwnProperty('punchCount')) {
+        res.status(412).send('missing punchCount');
+        return;
+    }
+
+    companies.push(date);
+    res.status(201).send(data);
+
 });
 
 app.get('/api/companies/:id', (req, res) => {
