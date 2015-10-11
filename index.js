@@ -1,11 +1,16 @@
 'use strict';
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const port = 4000;
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.get('/api/companies', (req, res) => {
+    res.status(200).send('Hello World!');
+});
+
+app.post('/api/companies', (req, res) => {
+    console.log('flot');
 });
 
 app.listen(port, () => {
