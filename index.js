@@ -19,35 +19,35 @@ app.get('/api/companies', (req, res) => {
 });
 
 app.post('/api/companies', (req, res) => {
-    const data = req.body;
+    const company = req.body;
 
-    if(!data.hasOwnProperty('name')) {
+    if(!company.hasOwnProperty('name')) {
         res.status(412).send('missing name');
         return;
     }
-    if(!data.hasOwnProperty('punchCount')) {
+    if(!company.hasOwnProperty('punchCount')) {
         res.status(412).send('missing punchCount');
         return;
     }
 
-    data.id = companies.length;
+    company.id = companies.length;
 
-    companies.push(data);
-    res.status(201).send(data);
+    companies.push(company);
+    res.status(201).send(company);
 });
 
 app.get('/api/companies/:id', (req, res) => {
     const id = req.params.id;
-    const data = _.find(companies, (company) => {
+    const company = _.find(companies, (company) => {
         return company.id == id;
     });
 
-    if(!data) {
-        res.status(404).send('not found');
+    if(!company) {
+        res.status(404).send('company not found');
         return;
     }
 
-    res.status(200).send(data);
+    res.status(200).send(company);
 });
 
 app.get('/api/users', (req, res) => {
@@ -55,36 +55,67 @@ app.get('/api/users', (req, res) => {
 });
 
 app.post('/api/users', (req, res) => {
-    const data = req.body;
+    const user = req.body;
 
-    if(!data.hasOwnProperty('name')) {
+    if(!user.hasOwnProperty('name')) {
         res.status(412).send('missing name');
         return;
     }
-    if(!data.hasOwnProperty('email')) {
+    if(!user.hasOwnProperty('email')) {
         res.status(412).send('missing email');
         return;
     }
 
-    data.id = users.length;
+    user.id = users.length;
+    user.punches = [];
 
-    users.push(data);
-    res.status(201).send(data);
+    users.push(user);
+    res.status(201).send(user);
 });
 
 app.get('/api/users/:id/punches', (req, res) => {
-    res.status(200).send('Hello World!');
+    const id = req.params.id;
+    const user = _.find(users, (user) => {
+        return user.id == id;
+    });
+
+    if(!user) {
+        res.status(404).send('user not found');
+        return;
+    }
+
+    res.status(200).send(user.punches);
 });
 
 app.post('/api/users/:id/punches', (req, res) => {
-    const data = req.body;
+    const punch = req.body;
+    const id = req.params.id;
 
-    if(!data.hasOwnProperty('id')) {
+    if(!punch.hasOwnProperty('id')) {
         res.status(412).send('missing company id');
         return;
     }
 
-    users[id].push(data);
-    res.status(201).send(data);
+    const user = _.find(users, (user) => {
+        return user.id == id;
+    });
+
+    const company = _.find(companies, (company) => {
+        return company.id == data.id;
+    });
+
+    if(!user) {
+        res.status(404).send('user not found');
+        return;
+    }
+    if(!company) {
+        res.status(404).send('company not found');
+        return;
+    }
+
+    punch.timestamp = new Date();
+
+    user.punches.push(punch);
+    res.status(201).send(user.punches);
 });
 
