@@ -91,11 +91,12 @@ app.post('/api/users', (req, res) => {
 
 /*
  * Returns a list of all punches registered for the given user.
- * Each punch contains information about what company it was added to, 
+ * Each punch contains information about what company it was added to,
  * and when it was created.
  * It is be possible to filter the list by adding a "?company={id}" to the query.
  */
 app.get('/api/users/:id/punches', (req, res) => {
+    const punches = [];
     const id = req.params.id;
     const user = _.find(users, (user) => {
         return user.id == id;
@@ -106,7 +107,18 @@ app.get('/api/users/:id/punches', (req, res) => {
         return;
     }
 
-    res.status(200).send(user.punches);
+    _.find(user.punches, (punch) => {
+        _.find(companies, (company) => {
+            if(punch.companyId == company.id) {
+                const p = {};
+                p.companyName = company.name;
+                p.timestamp = punch.timestamp;
+                punches.push(p);
+            }
+        });
+    });
+
+    res.status(200).send(punches);
 });
 
 /*
@@ -116,7 +128,7 @@ app.post('/api/users/:id/punches', (req, res) => {
     const punch = req.body;
     const id = req.params.id;
 
-    if(!punch.hasOwnProperty('id')) {
+    if(!punch.hasOwnProperty('companyId')) {
         res.status(412).send('missing company id');
         return;
     }
@@ -126,7 +138,7 @@ app.post('/api/users/:id/punches', (req, res) => {
     });
 
     const company = _.find(companies, (company) => {
-        return company.id == data.id;
+        return company.id == punch.companyId;
     });
 
     if(!user) {
