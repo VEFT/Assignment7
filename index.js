@@ -50,7 +50,7 @@ app.post('/api/users', (req, res) => {
         res.status(412).send('missing name');
         return;
     }
-    if(!date.hasOwnProperty('email')) {
+    if(!data.hasOwnProperty('email')) {
         res.status(412).send('missing email');
         return;
     }
@@ -65,6 +65,16 @@ app.get('/api/users/:id/punches', (req, res) => {
 
 app.post('/api/users/:id/punches', (req, res) => {
     console.log('flot');
+    console.log('POST - punches');
+
+    const data = req.body;
+    if(!data.hasOwnProperty('id')) {
+        res.status(412).send('missing company id');
+        return;
+    }
+
+    users[id].push(data);
+    res.status(201).send(data);
 });
 
 app.listen(port, () => {
