@@ -96,6 +96,7 @@ app.post('/api/users', (req, res) => {
  * It is be possible to filter the list by adding a "?company={id}" to the query.
  */
 app.get('/api/users/:id/punches', (req, res) => {
+    const queryCompanyId = req.query.company;
     const punches = [];
     const id = req.params.id;
     const user = _.find(users, (user) => {
@@ -107,16 +108,32 @@ app.get('/api/users/:id/punches', (req, res) => {
         return;
     }
 
-    _.find(user.punches, (punch) => {
-        _.find(companies, (company) => {
-            if(punch.companyId == company.id) {
-                const p = {};
-                p.companyName = company.name;
-                p.timestamp = punch.timestamp;
-                punches.push(p);
+    if(!queryCompanyId) {
+        _.find(user.punches, (punch) => {
+            _.find(companies, (company) => {
+                if(punch.companyId == company.id) {
+                    const p = {};
+                    p.companyName = company.name;
+                    p.timestamp = punch.timestamp;
+                    punches.push(p);
+                }
+            });
+        });
+    }
+    else {
+        _.find(user.punches, (punch) => {
+            if(punch.companyId == queryCompanyId) {
+                _.find(companies, (company) => {
+                    if(punch.companyId == company.id) {
+                        const p = {};
+                        p.companyName = company.name;
+                        p.timestamp = punch.timestamp;
+                        punches.push(p);
+                    }
+                });
             }
         });
-    });
+    }
 
     res.status(200).send(punches);
 });
