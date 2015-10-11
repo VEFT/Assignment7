@@ -15,7 +15,7 @@ app.listen(port, () => {
 });
 
 /*
- * Returns a list of all registered companies
+ * Returns a list of all registered companies.
  */
 app.get('/api/companies', (req, res) => {
     res.status(200).send(companies);
