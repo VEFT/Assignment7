@@ -1,0 +1,22 @@
+{
+  "name": "assignment7",
+  "version": "1.0.0",
+  "description": "VEFT assignment 7",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VEFT/Assignment7.git"
+  },
+  "author": "Daniel Benediktsson and Jorundur Jorunddson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VEFT/Assignment7/issues"
+  },
+  "homepage": "https://github.com/VEFT/Assignment7#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
